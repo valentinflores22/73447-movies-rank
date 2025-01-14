@@ -85,9 +85,10 @@
                         <div class="col-6">
                             <label for="">Fecha estreno</label>
                             <input 
-                            type="date" 
+                            type="number"
+                            min="1900"
                             name="date" 
-                            id="fecha-estreno" 
+                            id="date" 
                             required
                             class="form-control"
                             >
@@ -136,7 +137,20 @@
                     <thead>
                         <tr>
                             <th>Imagen</th>
-                            <th>Nombre</th>
+                            <th class="name-header-cell">
+
+                                <div class="name">
+                                
+                                Nombre
+                                <div class="sort-container">
+                                    <i class="fas fa-sort-up sort-up"></i>
+                                    
+                                
+                                    <i class="fas fa-sort-down sort-down"></i>
+                                </div>
+                            </div>
+
+                            </th>
                             <th>Género</th>
                             <th>Valoración</th>
                             <th>Fecha de Estreno</th>
@@ -153,20 +167,20 @@
 
         <div class="modal fade" id="detalle-pelicula" tabindex="-1" aria-labelledby="exampleModalLabel">
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="detalle-title"></h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="detalle-title"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="detalle-body">
-                  
+                    <div class="modal-body" id="detalle-body">
+                
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
-              </div>
+                </div>
             </div>
-          </div>
+        </div>
 
     </main>
 

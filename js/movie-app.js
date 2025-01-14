@@ -24,9 +24,86 @@ const movies = [
         score: 4,
         image: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg'
     },
+    {
+        id: 1003,
+        title: 'The Gladiator',
+        genre: 'Action',
+        date: 2000,
+        score: 4,
+        image: 'https://m.media-amazon.com/images/M/MV5BYWQ4YmNjYjEtOWE1Zi00Y2U4LWI4NTAtMTU0MjkxNWQ1ZmJiXkEyXkFqcGc@._V1_.jpg'
+    },
+    {
+        id: 1004,
+        title: 'Inception',
+        genre: 'Action',
+        date: 2010,
+        score: 5,
+        image: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg'
+    },
+    {
+        id: 1005,
+        title: 'Django Unchained',
+        genre: 'Western',
+        date: 2012,
+        score: 3,
+        image: 'https://m.media-amazon.com/images/M/MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1_FMjpg_UX1000_.jpg'
+    },
+    {
+        id: 1006,
+        title: 'World War Z',
+        genre: 'Horror',
+        date: 2013,
+        score: 2,
+        image: 'https://m.media-amazon.com/images/M/MV5BODg3ZTM2YWQtZDE5Ny00NGNiLTkzYjgtYWVlYjNkOTg5NDI1XkEyXkFqcGc@._V1_.jpg'
+    },
 ];
 
-pintarPeliculas(movies);
+const inputDateNumber = document.getElementById("date");
+
+inputDateNumber.setAttribute("max", new Date().getFullYear());
+
+const ascTableNameBtn = document.querySelector(".fa-sort-up")
+const descTableNameBtn = document.querySelector(".fa-sort-down") //DOM
+
+ascTableNameBtn.addEventListener("click", function(){
+    console.log("Ascendente")
+    ordernarPeliculas("asc", "title")
+})
+
+descTableNameBtn.addEventListener("click", function(){
+    console.log("Descendente")
+    ordernarPeliculas("desc", "title")
+})
+
+function ordernarPeliculas(ordernamiento, propiedad) {
+
+    const sortedMovies = movies.toSorted(    (a, b) => {
+
+        // Condicion para el ordernamiento
+
+        // if ( a.title.toLowerCase() > b.title.toLowerCase()) {
+        //     return 1;
+        // }
+        // if ( a.title.toLocaleLowerCase() < b.title.toLocaleLowerCase()) {
+        //     return -1;
+        // }
+        // return 0;
+
+        // return a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1;
+
+        if(ordernamiento === "asc") {
+        return a[propiedad].localeCompare(b[propiedad])
+        }
+
+        if(ordernamiento === "desc") {
+            return b[propiedad].localeCompare(a[propiedad])
+            }
+    })
+
+    pintarPeliculas(sortedMovies);
+}
+
+
 
 // Obtener el formulario de carga de peliculas desde el DOM
 const moviesForm = document.getElementById("moviesForm");
@@ -44,7 +121,7 @@ moviesForm.addEventListener("submit", function(evento) {
         title: el.title.value,
         genre: el.genre.value,
         score: el.score.value,
-        date: el.date.value.slice(0, 4),
+        date: el.date.value,
         image: el.image.value,
     }
 
@@ -93,7 +170,7 @@ function pintarPeliculas(arrayPeliculas) {
                             </td>
                             <td class="actions-cell">
                                 <div class="actions">
-                                    <button class="btn btn-primary">
+                                    <button class="btn btn-primary" onclick="editarPelicula(${peli.id})">
 
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
@@ -210,15 +287,40 @@ function mostrarDetalle(ID) {
     modalTitleHTML.innerText = pelicula.title;
 
     modalBodyHTML.innerHTML = `<div class="row">
-                                 <div class="col-6">
+                                <div class="col-6">
                                     <img src="${pelicula.image}" class="w-100">
-                                 </div>
-                                 <div class="col-6">
+                                </div>
+                                <div class="col-6">
                                     <span class="badge text-bg-secondary">${pelicula.genre}</span>
-                                 </div>
+                                </div>
                                 </div>`
 
 }
 
-// Ordenar películas en base a su puntuación
+// Filtrar peliculas por género
+
+// Editar Pelicula
+
+function editarPelicula(id) {
+
+    // Buscar la pelicula en el array de peliculas por su id
+
+    const pelicula = movies.find(peli => {
+
+        // return peli.id === id
+        if(peli.id === id) {
+            return true
+        }
+    })
+
+    // Vamos a rellenar el formulario con los datos de la película
+
+    const el = moviesForm.elements;
+
+    el.title.value = pelicula.title;
+
+    // Vamos a cambiar el texto del botón
+    // Vamos a cambiar los estilos del formulario para que se vea diferente 
+    // Vamos a cambiar el evento de submit del formulario para que actualice la pelicula en lugar de agregarla
+}
 
