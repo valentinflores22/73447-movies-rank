@@ -3,7 +3,7 @@ const movies = [
     {
         id: 1000,
         title: 'The Godfather',
-        genre: 'Drama',
+        genre: 'drama',
         date: 1972,
         score: 5,
         image: 'https://play-lh.googleusercontent.com/ZucjGxDqQ-cHIN-8YA1HgZx7dFhXkfnz73SrdRPmOOHEax08sngqZMR_jMKq0sZuv5P7-T2Z2aHJ1uGQiys'
@@ -11,7 +11,7 @@ const movies = [
     {
         id: 1001,
         title: 'God of War',
-        genre: 'Drama',
+        genre: 'drama',
         date: 1994,
         score: 2,
         image: 'https://i5.walmartimages.com/asr/5003a7b8-81c5-4803-beee-df5417f06bbe.1f75ffb05ff4e640f976691214312d6a.jpeg'
@@ -19,7 +19,7 @@ const movies = [
     {
         id: 1002,
         title: 'The Dark Knight',
-        genre: 'Action',
+        genre: 'accion',
         date: 2008,
         score: 4,
         image: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg'
@@ -27,7 +27,7 @@ const movies = [
     {
         id: 1003,
         title: 'The Gladiator',
-        genre: 'Action',
+        genre: 'accion',
         date: 2000,
         score: 4,
         image: 'https://m.media-amazon.com/images/M/MV5BYWQ4YmNjYjEtOWE1Zi00Y2U4LWI4NTAtMTU0MjkxNWQ1ZmJiXkEyXkFqcGc@._V1_.jpg'
@@ -35,7 +35,7 @@ const movies = [
     {
         id: 1004,
         title: 'Inception',
-        genre: 'Action',
+        genre: 'accion',
         date: 2010,
         score: 5,
         image: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg'
@@ -43,7 +43,7 @@ const movies = [
     {
         id: 1005,
         title: 'Django Unchained',
-        genre: 'Western',
+        genre: 'western',
         date: 2012,
         score: 3,
         image: 'https://m.media-amazon.com/images/M/MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1_FMjpg_UX1000_.jpg'
@@ -51,12 +51,16 @@ const movies = [
     {
         id: 1006,
         title: 'World War Z',
-        genre: 'Horror',
+        genre: 'terror',
         date: 2013,
         score: 2,
         image: 'https://m.media-amazon.com/images/M/MV5BODg3ZTM2YWQtZDE5Ny00NGNiLTkzYjgtYWVlYjNkOTg5NDI1XkEyXkFqcGc@._V1_.jpg'
     },
 ];
+
+let idEditando = null;
+
+const btnResetForm = document.getElementById("clear-form");
 
 const inputDateNumber = document.getElementById("date");
 
@@ -100,6 +104,8 @@ function ordernarPeliculas(ordernamiento, propiedad) {
             }
     })
 
+    resetForm();
+
     pintarPeliculas(sortedMovies);
 }
 
@@ -117,7 +123,8 @@ moviesForm.addEventListener("submit", function(evento) {
     // En base a los datos ingresados por el usuario, crear un objeto de película.
     
     const pelicula = {
-        id: new Date().getTime(),
+        // id: idEditando ? idEditando : Date.now(),
+        id: idEditando || Date.now(),
         title: el.title.value,
         genre: el.genre.value,
         score: el.score.value,
@@ -127,8 +134,25 @@ moviesForm.addEventListener("submit", function(evento) {
 
     console.log(pelicula)
     // const titulo = evento.target.elements.title.value;
-    // Agregar la película al array de películas
-    movies.push(pelicula);
+
+    if(idEditando) {
+        //Significa que estoy editando una pelicula
+
+        const index = movies.findIndex(movie => {
+
+            if(movie.id === idEditando) {
+                return true;
+            }
+
+        })
+
+        movies[index] = pelicula;
+
+    } else {
+        // Significa que estoy agregando una pelicula
+        // Agregar la película al array de películas
+        movies.push(pelicula);
+    }
 
     pintarPeliculas(movies);
 })
@@ -315,12 +339,59 @@ function editarPelicula(id) {
 
     // Vamos a rellenar el formulario con los datos de la película
 
+    idEditando = pelicula.id;
+
     const el = moviesForm.elements;
 
     el.title.value = pelicula.title;
+    el.genre.value = pelicula.genre;
+    el.image.value = pelicula.image;
+    el.date.value = pelicula.date;
+    el.score.value = pelicula.score;
+
 
     // Vamos a cambiar el texto del botón
+
+    const btn = document.querySelector("button[type='submit']")
+
+    console.log(btn)
+
+    btn.innerText = "Editar"
+
+    // Cambiar clases con JS
+    btn.classList.remove("btn-primary")
+
+    btn.classList.add("btn-success");
+
+    // Toggle activa o desactiva una clase
+    // btn.classList.toggle("btn-warning");
+
+    moviesForm.classList.add("bg-success-subtle");
+
+    btnResetForm.classList.remove("d-none");
+
+    // btnResetForm.style.borderStyle = "4px solid crimson";
+
+    // Contains verificar si un elemento tiene una clase y devuelve un booleano
+    // btn.classList.contains("btn")
     // Vamos a cambiar los estilos del formulario para que se vea diferente 
     // Vamos a cambiar el evento de submit del formulario para que actualice la pelicula en lugar de agregarla
 }
 
+btnResetForm.addEventListener("click", resetForm);
+
+function resetForm() {
+
+    moviesForm.reset();    
+    moviesForm.elements.title.focus();
+
+    if(idEditando) {
+        btnResetForm.classList.add("d-none")
+        idEditando = null;
+        moviesForm.classList.remove("bg-success-subtle")
+        const btn = moviesForm.querySelector("button[type='submit']")
+        btn.innerText = "Cargar";
+        btn.classList.remove("btn-success")
+        btn.classList.add("btn-primary")
+    }
+}

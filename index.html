@@ -31,7 +31,7 @@
 
             <div class="col-12 col-lg-4">
                 <h1 class="h2">Formulario Peliculas</h1>
-                <form class="p-3 mb-4 border" id="moviesForm">
+                <form class="p-3 mb-4 border bg-primary-subtle" id="moviesForm">
 
                     <div class="mb-3">
 
@@ -70,11 +70,12 @@
                                 required
                         >
                         <option value="">Selecciona un género</option>
-                        <option value="Accion">Accion</option>
-                        <option value="Aventuras">Aventuras</option>
-                        <option value="Comedia">Comedia</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Terror">Terror</option>
+                        <option value="accion">Accion</option>
+                        <option value="aventuras">Aventuras</option>
+                        <option value="comedia">Comedia</option>
+                        <option value="drama">Drama</option>
+                        <option value="terror">Terror</option>
+                        <option value="western">Western</option>
                         
                         </select>
 
@@ -108,11 +109,23 @@
                         >
                         </div>
 
+                        <div class="d-flex justify-content-between">
+
+                            <button id="submitBtn" type="submit" class="btn btn-primary">
+                                Guardar
+                            </button>
+
+                            <button class="btn btn-secondary d-none" title="Cancelar edición" id="clear-form">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+
+
+
+                        </div>
+
                     </div>
 
-                    <button type="submit" class="btn btn-primary">
-                        Guardar
-                    </button>
+                    
 
                 </form> 
 

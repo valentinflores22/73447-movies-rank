@@ -33,6 +33,8 @@
 .image-cell {
     img {
         width: 75px;
+        aspect-ratio: 2/3;
+        object-fit: cover;
     }
 }
 
